@@ -10,7 +10,11 @@ Images downloaded as compressed JPEG variants served by Pexels; no local image e
 
 ## Approved logo
 
-`public/images/parkniva-logo.png` is an unchanged copy of the logo approved in this chat. Original: `C:/Users/findh/.codex/visualizations/2026/11/06/01a1b05b-1728-74d2-a11f-4a67550f0e7b/parking-rental-logo-v1.png`.
+`public/images/parkniva-logo.png` is an unchanged copy of the AI-generated logo approved by the project owner during development. It is separate from the Pexels photographs. Approval and AI generation do not establish exclusivity, copyright eligibility or trademark clearance. Have the final word mark and device mark professionally searched before relying on them commercially.
+
+## Rights and limitations
+
+The photographs remain the property of their respective rights holders and are used under the [Pexels licence](https://www.pexels.com/license/) and [terms](https://www.pexels.com/terms-of-service/). They are excluded from Parkniva's proprietary code notice. They are used as elements in this website, rather than offered as a stock-photo collection, and may not be extracted or redistributed as standalone stock assets. No endorsement or affiliation by photographers, vehicle manufacturers or property owners is claimed. Pexels does not guarantee releases for depicted third-party rights. Replace sample imagery with authorised host photos before publishing real listings; review any recognisable property, person, plate or vehicle branding before commercial promotion.
 
 ## Photography
 

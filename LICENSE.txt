@@ -1,0 +1,32 @@
+PARKNIVA — PROPRIETARY RIGHTS NOTICE
+
+Copyright (c) 2026 BHUVANESHWARAN R (GitHub: bhuvanbhuvi043).
+All rights reserved in original Parkniva contributions, to the extent such
+contributions are protected by applicable law.
+
+No general permission is granted to reproduce, distribute, sublicense, sell,
+or create derivative works of the original Parkniva code, copy or branding.
+Use by the owner and persons acting under the owner's authorisation is
+permitted within the scope of that authorisation. Other uses require the
+rights holder's written permission, unless otherwise allowed by law.
+
+Access to this private repository is not, by itself, permission to redistribute
+the project or to operate an unauthorised commercial copy.
+
+THIRD-PARTY MATERIAL
+This notice does not replace, restrict or revoke any rights granted under
+third-party licences. Dependencies, vendored components, fonts, photographs,
+maps and other third-party works retain their respective licences and notices.
+See THIRD-PARTY-NOTICES.md, ASSET-SOURCES.md, vendor/ and
+public/legal/third-party-notices.txt.
+
+BRAND AND REGISTRATION
+No licence to use Parkniva branding is granted by this notice. This notice is
+not a trademark registration, copyright registration, patent, legal clearance,
+or statement that AI-assisted material has exclusive copyright protection.
+
+WARRANTY
+To the extent permitted by law, this development version is supplied as is,
+without warranties of merchantability, fitness for a particular purpose or
+non-infringement. Commercial operation requires the owner's separate approval
+and completion of the operational and legal launch requirements.

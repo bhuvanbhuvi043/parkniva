@@ -2,6 +2,12 @@
 
 **Space to park. Room to earn.** A parking marketplace for India, with prices and availability chosen by each host.
 
+[Private website preview](https://parkniva.sheerriver2.chatgpt.site) · [Private GitHub repository](https://github.com/bhuvanbhuvi043/parkniva)
+
+Original Parkniva work is proprietary: see [LICENSE.txt](LICENSE.txt). Third-party rights are preserved in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and [ASSET-SOURCES.md](ASSET-SOURCES.md). The preliminary [IP review](docs/IP-REVIEW.md) records what has been checked and what still needs official clearance. Repository publication is not a trademark, patent or copyright registration.
+
+For GitHub setup, CI and the difference between source hosting and the running full-stack application, see [docs/GITHUB.md](docs/GITHUB.md).
+
 ## What works
 
 - Responsive search, city/area queries, hourly/daily/monthly plans, budget, vehicle and facility filters, saved spaces and area maps.

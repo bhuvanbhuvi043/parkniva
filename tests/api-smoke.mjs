@@ -14,6 +14,8 @@ const auth=await fetch(base+'/signin-with-chatgpt?return_to=/',{redirect:'manual
 cookie=auth.headers.get('set-cookie')?.split(';')[0]||'';
 assert.ok(cookie,'Portable sign-in did not return a local session');
 const session=await req('session');assert.equal(session.data.user.userId,'local_seedy');assert.equal(session.data.user.isAdmin,true);
+assert.equal((await req('profile','POST',{displayName:'Local QA',phone:'',city:'Chennai',bio:'x'.repeat(41000)})).status,400);
+assert.equal((await fetch(base+'/api/profile',{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:'{'})).status,400);
 assert.equal((await req('profile','POST',{displayName:'Local QA Host',phone:'',city:'Chennai',bio:'Local preview test account.'})).status,200);
 assert.equal((await req('profile','POST',{displayName:'Local QA',phone:'',city:'Chennai',bio:''},{Origin:'https://unrelated.example'})).status,403);
 const invalid=new FormData();invalid.set('file',new File(['not a photo'],'bad.png',{type:'image/png'}));

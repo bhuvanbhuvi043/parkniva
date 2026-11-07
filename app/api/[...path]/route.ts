@@ -6,7 +6,14 @@ import { bookingWindow, quoteParking } from "../../../lib/parking";
 export const dynamic = "force-dynamic";
 const short = (max = 160) => z.string().trim().max(max);
 const listingSchema = z.object({ title: short(100).min(3), city: short(70).min(2), state: short(70).min(2), area: short(100).default(""), address: short(250).default(""), description: short(1800).default(""), lat: z.number().min(6).max(38), lng: z.number().min(68).max(98), parkingType: z.enum(["open", "covered", "garage"]), vehicles: z.array(z.enum(["car","suv","bike"])).min(1).max(3), amenities: z.array(z.enum(["cctv","guard","gated","lighting","ev","accessible"])).max(6), images: z.array(z.string().regex(/^\/api\/photos\/[a-f0-9-]+$/)).max(6), hourlyPrice: z.number().min(1).max(10000).nullable(), dailyPrice: z.number().min(1).max(100000).nullable(), monthlyPrice: z.number().min(1).max(1000000).nullable(), openTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), closeTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), days: z.array(z.number().int().min(0).max(6)).min(1).max(7), length: z.number().min(1).max(30), width: z.number().min(0.8).max(20), height: z.number().min(1).max(10).nullable(), instructions: short(800).default(""), rightsConfirmed: z.boolean(), submit: z.boolean().default(false) }).refine(d => d.openTime < d.closeTime, "Closing time must be after opening time.").refine(d => d.hourlyPrice !== null || d.dailyPrice !== null || d.monthlyPrice !== null, "Add at least one parking price.");
-async function body(request: Request) { if (Number(request.headers.get("content-length") || 0) > 40000) throw new Error("This request is too large."); return request.json(); }
+async function body(request: Request) {
+  if (Number(request.headers.get("content-length") || 0) > 40000) throw new Error("This request is too large.");
+  const reader=request.body?.getReader();if(!reader)throw new Error("Choose a valid JSON request.");
+  const chunks:Uint8Array[]=[];let size=0;
+  while(true){const chunk=await reader.read();if(chunk.done)break;size+=chunk.value.byteLength;if(size>40000){await reader.cancel();throw new Error("This request is too large.");}chunks.push(chunk.value);}
+  const bytes=new Uint8Array(size);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}
+  try{return JSON.parse(new TextDecoder().decode(bytes));}catch{throw new Error("Choose a valid JSON request.");}
+}
 async function handle(request: Request) {
   const url = new URL(request.url); const p = url.pathname.replace(/^\/api\//, "").split("/").filter(Boolean); const method = request.method;
   if (method !== "GET" && !sameOrigin(request)) return json({ error: "This request is not permitted." }, 403);
