@@ -7,7 +7,7 @@ import SpaceCard from "./space-card";
 const FAQS=[
  ["Who sets the parking price?","Every host sets their own hourly, daily or monthly prices. You can compare the full parking price, facilities and access hours before requesting a space."],
  ["Can I list a space outside Chennai?","Yes. Parkniva is being built for India. You can submit a space in any Indian city. Each listing needs the required permission and access review before it becomes bookable."],
- ["Do I pay when I request a booking?","No payments are collected in this private preview. Real spaces use booking requests that the host accepts or declines. Example spaces let you try the experience without reserving a real property."],
+ ["Do I pay when I request a booking?","No payments are collected in this early access preview. Real spaces use booking requests that the host accepts or declines. Example spaces let you try the experience without reserving a real property."],
  ["What kind of space can I share?","A private driveway, suitable garage, allocated bay or approved parking facility may be eligible. You must have the right to offer it and any permission required from your owner, association or local authority."],
  ["What if my plans change?","You can manage or cancel your request from My bookings. Check your host's access and cancellation terms before requesting a real space. No cancellation charge is collected in the preview."],
 ];

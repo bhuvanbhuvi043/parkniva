@@ -1,6 +1,6 @@
 # Security
 
-Parkniva is currently an owner-private development preview. This repository is private. Payments and payouts are disabled.
+Parkniva is a public early access preview backed by a private GitHub repository. Anonymous visitors can browse published and example listings. Account data, private photos, host submissions, booking writes and administrator actions require the appropriate authenticated identity. Payments and payouts are disabled.
 
 Report suspected vulnerabilities privately to the repository owner, `bhuvanbhuvi043`, through an existing private contact channel or a GitHub private security advisory if that facility is available. Do not publish credentials, precise host locations, vehicle registrations, customer records or exploit data in issues. No monitored support email or guaranteed response time is advertised by this project.
 
@@ -13,4 +13,4 @@ Report suspected vulnerabilities privately to the repository owner, `bhuvanbhuvi
 
 Authentication and the production administrator identity come from trusted platform identity and server configuration. Keep `.dev.vars`, `.env`, local D1/R2 data, source-repository credentials and deployment archives out of Git. `.env.example` contains no secret values. Never copy local mock-auth middleware into production request handling.
 
-The dependency audit is a dated check. It does not establish that the application is free from vulnerabilities. Recheck advisories and test upgrades before a public launch. The private preview and source repository should remain private until the owner deliberately changes their audiences.
+The dependency audit is a dated check. It does not establish that the application is free from vulnerabilities. Recheck advisories and test upgrades before a paid commercial launch. The owner explicitly authorised a public website while retaining private source access; these audiences are managed separately. The server code and private repository are restricted, while the HTML, CSS, images and client-side JavaScript delivered to a public visitor can necessarily be inspected in their browser. There are no client source-map files in the release build. Keep secrets and privileged logic on the server.

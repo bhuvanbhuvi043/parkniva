@@ -7,7 +7,7 @@ Review dates: **6–7 November 2026 (India)**. This is a preliminary source and 
 - The owner selected a **private GitHub repository with rights retained**. No MIT, Apache or other open-source grant has been applied to original Parkniva work.
 - The maintainer is the authenticated GitHub account `bhuvanbhuvi043`, whose profile identifies BHUVANESHWARAN R. This does not establish an incorporated company or determine the appropriate applicant for a legal filing.
 - Third-party software and media retain their original terms. Their rights are excluded from `LICENSE.txt`.
-- The hosted site remains owner-private. GitHub publication is source storage; it does not replace the hosted Worker, D1 database or R2 storage.
+- The owner subsequently authorised a public website while retaining private GitHub source access. GitHub Actions builds the private source; the matching build is published to the existing Sites Worker, D1 and R2 host. Public website access does not grant repository access. This is separate from any formal IP registration or commercial payment launch.
 
 ## Trademark and company name: pending
 
