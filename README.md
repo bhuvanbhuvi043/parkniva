@@ -2,7 +2,7 @@
 
 **Space to park. Room to earn.** A parking marketplace for India, with prices and availability chosen by each host.
 
-[Public website preview](https://parkniva.sheerriver2.chatgpt.site) · [Private GitHub repository](https://github.com/bhuvanbhuvi043/parkniva)
+[GitHub Pages project preview](https://bhuvanbhuvi043.github.io/parkniva/) · [Full interactive prototype](https://parkniva.sheerriver2.chatgpt.site) · [Public source repository](https://github.com/bhuvanbhuvi043/parkniva)
 
 Original Parkniva work is proprietary: see [LICENSE.txt](LICENSE.txt). Third-party rights are preserved in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and [ASSET-SOURCES.md](ASSET-SOURCES.md). The preliminary [IP review](docs/IP-REVIEW.md) records what has been checked and what still needs official clearance. Repository publication is not a trademark, patent or copyright registration.
 
@@ -20,7 +20,7 @@ Real data is stored in D1. Public photographs are served only for published list
 
 ## Preview and commercial scope
 
-The website is published as a public early access preview, while the GitHub source repository remains private. GitHub Actions builds the private source; the matching build is published through the existing Sites Worker host. Accounts, listing submissions, bookings and administration remain protected by sign-in and server-side ownership checks. The twelve sample listings are explicitly fictional: their stock photographs, prices and map pins are illustrative, and sample bookings reserve no real property. Source and photo attribution are in `ASSET-SOURCES.md`.
+The owner authorised a public source repository on 10 November 2026 to enable GitHub Pages. The `github-pages/` folder publishes a static project showcase at the GitHub Pages address. Its “Open the full website” button opens the interactive prototype, whose accounts, uploads and booking requests run on the existing Sites Worker, D1 and R2 host. Accounts and administrator actions remain protected by sign-in and server-side ownership checks. The twelve sample listings are fictional: photographs, prices and map pins are illustrative, and sample bookings reserve no real property. Source and photo attribution are in `ASSET-SOURCES.md`.
 
 **Payments, payouts, refunds and SMS/email notifications are not enabled.** Booking requests and host responses are real database operations, but no money is collected. Hosts and drivers check the dashboard for updates. A pending request holds its slot for 24 hours; acceptance must occur before expiry and before arrival. One listing represents one parking bay. Access hours must fall within one calendar day. Daily and monthly requests hold the entire date interval, including closed hours, to prevent conflicting plans; monthly access follows the host's stated days and hours.
 

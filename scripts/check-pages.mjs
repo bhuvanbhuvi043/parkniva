@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { readFile, readdir } from 'node:fs/promises';
+const root=new URL('../github-pages/',import.meta.url);
+const names=(await readdir(root)).sort();
+assert.deepEqual(names,['.nojekyll','index.html','logo.png']);
+const html=await readFile(new URL('index.html',root),'utf8');
+assert.match(html,/<title>Parkniva — Project preview<\/title>/);
+assert.match(html,/<meta name="viewport"/);
+assert.match(html,/href="https:\/\/parkniva\.sheerriver2\.chatgpt\.site"/);
+assert.match(html,/href="https:\/\/parkniva\.sheerriver2\.chatgpt\.site\/help"/);
+assert.match(html,/This is a project showcase/);
+assert.doesNotMatch(html,/<(?:form|iframe|script)\b/i);
+assert.doesNotMatch(html,/(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|-----BEGIN .*PRIVATE KEY-----)/);
+const logo=await readFile(new URL('logo.png',root));
+assert.equal(logo.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+console.log('PASS: static preview files, destination links, viewport and image are valid; no application forms, scripts or backend files are published to Pages.');

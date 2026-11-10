@@ -10,8 +10,9 @@ Use by the owner and persons acting under the owner's authorisation is
 permitted within the scope of that authorisation. Other uses require the
 rights holder's written permission, unless otherwise allowed by law.
 
-Access to this private repository is not, by itself, permission to redistribute
-the project or to operate an unauthorised commercial copy.
+Public access to this repository is not, by itself, a general open-source
+licence to redistribute the project or operate an unauthorised commercial
+copy. GitHub's applicable platform terms and statutory rights still apply.
 
 THIRD-PARTY MATERIAL
 This notice does not replace, restrict or revoke any rights granted under

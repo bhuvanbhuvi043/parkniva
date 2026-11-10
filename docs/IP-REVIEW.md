@@ -4,10 +4,10 @@ Review dates: **6–7 November 2026 (India)**. This is a preliminary source and 
 
 ## Current decisions
 
-- The owner selected a **private GitHub repository with rights retained**. No MIT, Apache or other open-source grant has been applied to original Parkniva work.
+- The owner initially selected a private repository and subsequently authorised **public source publication on 10 November 2026** to enable GitHub Pages. Original Parkniva rights are retained; no MIT, Apache or other general open-source grant has been applied to those contributions.
 - The maintainer is the authenticated GitHub account `bhuvanbhuvi043`, whose profile identifies BHUVANESHWARAN R. This does not establish an incorporated company or determine the appropriate applicant for a legal filing.
 - Third-party software and media retain their original terms. Their rights are excluded from `LICENSE.txt`.
-- The owner subsequently authorised a public website while retaining private GitHub source access. GitHub Actions builds the private source; the matching build is published to the existing Sites Worker, D1 and R2 host. Public website access does not grant repository access. This is separate from any formal IP registration or commercial payment launch.
+- The repository is now public. GitHub Pages serves a static project showcase, and the existing Sites Worker, D1 and R2 host runs the interactive prototype. Production accounts and data remain protected. Publication is separate from any formal IP registration or commercial payment launch.
 
 ## Trademark and company name: pending
 
@@ -54,7 +54,7 @@ Earlier publications found during this preliminary review include:
 
 These publications show that parking sharing is an established technical/business field. Their presence does not determine whether Parkniva infringes a valid claim, whether an Indian patent family is relevant, or whether a particular new technical improvement is patentable. No claim chart, Indian family/status verification, exhaustive prior-art search or freedom-to-operate opinion has been completed. A publication's apparent status in a search service is not relied on as a legal conclusion.
 
-If the owner has a specific new technical invention, obtain patent advice before public disclosure. The private GitHub setting reduces public exposure but does not establish patent novelty or a patent filing date. No patent application has been filed here.
+If the owner has a specific new technical invention, patent strategy and disclosure need professional assessment. The repository is now public and its contents cannot be treated as confidential. Publication does not establish patent novelty or a patent filing date. No patent application has been filed here.
 
 - [Patents Act, section 3](https://ipindia.gov.in/acts/patent-act-1970/section-3)
 - [IP India 2025 computer-related-invention guidance](https://ipindia.gov.in/frontend/pdf/patents/guidelines/GUIDELINES%20FOR%20EXAMINATION%20OF%20COMPUTER%20RELATED%20INVENTIONS%20%28CRIs%29%20-%202025.pdf)
