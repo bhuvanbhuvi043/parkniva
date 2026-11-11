@@ -14,7 +14,7 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test tests/parking.test.mjs tests/reservations.test.mjs tests/pages.test.mjs",
+    "test": "node --experimental-strip-types --test tests/parking.test.mjs tests/reservations.test.mjs tests/pages.test.mjs tests/charging.test.mjs",
     "licenses:generate": "node scripts/generate-license-notices.mjs",
     "security:source": "node scripts/check-source-safety.mjs",
     "build:pages": "node --experimental-strip-types scripts/build-pages.mjs"

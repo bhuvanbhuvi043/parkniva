@@ -3,6 +3,7 @@ import { z } from "zod";
 import { database, identity, json, sameOrigin, toSpace } from "../../../lib/server";
 import { EXAMPLE_SPACES } from "../../../lib/examples";
 import { bookingWindow, quoteParking } from "../../../lib/parking";
+import { chargingApi } from "../../../lib/charging-api";
 export const dynamic = "force-dynamic";
 const short = (max = 160) => z.string().trim().max(max);
 const listingSchema = z.object({ title: short(100).min(3), city: short(70).min(2), state: short(70).min(2), area: short(100).default(""), address: short(250).default(""), description: short(1800).default(""), lat: z.number().min(6).max(38), lng: z.number().min(68).max(98), parkingType: z.enum(["open", "covered", "garage"]), vehicles: z.array(z.enum(["car","suv","bike"])).min(1).max(3), amenities: z.array(z.enum(["cctv","guard","gated","lighting","ev","accessible"])).max(6), images: z.array(z.string().regex(/^\/api\/photos\/[a-f0-9-]+$/)).max(6), hourlyPrice: z.number().min(1).max(10000).nullable(), dailyPrice: z.number().min(1).max(100000).nullable(), monthlyPrice: z.number().min(1).max(1000000).nullable(), openTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), closeTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), days: z.array(z.number().int().min(0).max(6)).min(1).max(7), length: z.number().min(1).max(30), width: z.number().min(0.8).max(20), height: z.number().min(1).max(10).nullable(), instructions: short(800).default(""), rightsConfirmed: z.boolean(), submit: z.boolean().default(false) }).refine(d => d.openTime < d.closeTime, "Closing time must be after opening time.").refine(d => d.hourlyPrice !== null || d.dailyPrice !== null || d.monthlyPrice !== null, "Add at least one parking price.");
@@ -18,6 +19,7 @@ async function handle(request: Request) {
   const url = new URL(request.url); const p = url.pathname.replace(/^\/api\//, "").split("/").filter(Boolean); const method = request.method;
   if (method !== "GET" && !sameOrigin(request)) return json({ error: "This request is not permitted." }, 403);
   const user = await identity();
+  if (p[0] === "charging") return chargingApi(request,p,user,body);
   if (p[0] === "session" && method === "GET") return json({ user });
   if (p[0] === "health" && method === "GET") return json({ status: "ok", paymentsEnabled: false });
   const db = database();
@@ -37,7 +39,8 @@ async function handle(request: Request) {
     if (!upload || !env.BUCKET) return json({ error: "Photo not found." },404);
     const published = await db.prepare("SELECT id FROM listings WHERE status = 'published' AND images LIKE ? LIMIT 1").bind(`%/api/photos/${p[1]}%`).first();
     const guestAccess = user && await db.prepare("SELECT l.id FROM listings l JOIN bookings b ON b.listing_id=l.id WHERE l.images LIKE ? AND b.guest_id=? AND b.status='accepted' AND b.end_at>? LIMIT 1").bind(`%/api/photos/${p[1]}%`,user.userId,Date.now()).first();
-    if (!published && upload.owner_id !== user?.userId && !user?.isAdmin && !guestAccess) return json({ error: "Photo not found." },404);
+    const chargingPhoto = await db.prepare("SELECT id FROM chargers WHERE image=? AND status='published' LIMIT 1").bind(`/api/photos/${p[1]}`).first();
+    if (!published && !chargingPhoto && upload.owner_id !== user?.userId && !user?.isAdmin && !guestAccess) return json({ error: "Photo not found." },404);
     const object = await env.BUCKET.get(String(upload.object_key)); if (!object) return json({ error: "Photo not found." },404);
     return new Response(object.body, { headers: { "Content-Type": String(upload.content_type), "Cache-Control": "private, max-age=3600", "X-Content-Type-Options": "nosniff" } });
   }
@@ -114,3 +117,4 @@ async function handle(request: Request) {
 }
 async function safe(request:Request) {try{return await handle(request);}catch(error){if(error instanceof z.ZodError)return json({error:error.issues.map(i=>i.message).slice(0,3).join(" ")},400);const message=error instanceof Error?error.message:"Please try again.";if(/Choose|host|parking plan|Closing|price|date|duration|valid|request is too large/.test(message))return json({error:message},400);console.error("ParkThara API",error);return json({error:"We could not complete that request. Please try again shortly."},500);}}
 export const GET=safe;export const POST=safe;export const PUT=safe;export const PATCH=safe;export const DELETE=safe;
+

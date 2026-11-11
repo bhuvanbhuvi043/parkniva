@@ -1,39 +1,60 @@
-# Parking and EV charging
+# Standalone EV charging: product and pricing decisions
 
-## Product decision
+Updated 11 November 2026. Charging is an independent service, not a parking add-on. A driver can request a charger without selecting or paying for parking. Charging uses separate chargers and charging_bookings tables and a separate dashboard.
 
-Offer parking with optional charging for electric cars, scooters and motorcycles. Keep parking available independently: an EV driver may need only parking, and a host may have a bay without a charger. The first release adds discovery, vehicle filters, compatibility guidance and an illustrative energy/time/cost estimator. It does not sell or guarantee a charging session.
+## What is implemented
 
-The existing EV amenity is a host declaration, not proof of compatibility, electrical inspection or real-time uptime. A two-wheeler parking filter only checks space eligibility; it does not certify that its battery or connector works with the equipment. Samples remain fictional.
+- One listing represents one physical charging port with a dedicated bay. Hosts declare permission and professionally inspected installation, upload an equipment photograph, state connector, vehicle category, exact-model compatibility notes, cable requirements, kW, daily opening hours, session length and energy limit. Review is required before publication.
+- Drivers search city/area, car or two-wheeler and session/per-kWh pricing. A vehicle category match is not a compatibility certification. The driver supplies exact make/model and the host confirms compatibility before acceptance.
+- Charging requests hold that port atomically for at most two hours, ending earlier at arrival time. Adjacent slots are permitted; overlapping active requests are rejected. Expired requests cannot be accepted. Accepted reservations retain their port until the reserved end.
+- Separate driver/host records support acceptance, decline, cancellation before arrival and host-recorded completion after the reserved end. No parking booking is created. Completion is a visit record, not evidence of delivered energy.
+- Hosts can update rates for new requests. Existing requests retain the original rate, estimated/fixed price and equipment/address snapshot. The API rejects a stale displayed rate at submission. Hosts can pause new requests and acceptance; existing accepted bookings remain obligations until cancelled or fulfilled.
+- Public catalogue omits exact addresses. Guest booking records reveal them after acceptance. Authentication, ownership checks, origin checks, bounded request bodies, upload ownership and daily request limits apply.
 
-## Required listing information before charging reservations
+## Prices and what one charge means
 
-Store a separate charger record linked to a parking site: equipment make/model, connector/outlet standard, AC/DC, maximum and currently available power, voltage/current where relevant, supported vehicle models, cable provision and whether the driver must bring an approved portable charger. Record port count and simultaneous charging capacity separately. Photos should show the actual equipment and connector without exposing private identifiers.
+There is no universal full-charge price. The meaningful comparison is delivered kWh, connector/power, reserved time and all fees. As checked on 11 November 2026:
 
-Record charging opening hours, host assistance requirements, shared access, maintenance outages, last operator confirmation and independent review status. Existing chargers must default to unverified details, never acquire a verified badge automatically. An installation professional must assess supply capacity, earthing, protective devices and local requirements; this application cannot certify them from photos.
+- BPCL eDrive advertises a promotional INR14/kWh plus GST: https://www.bharatpetroleum.in/our-businesses/fuels-and-services/edrive
+- Jio-bp advertises subscription examples INR20.25 and INR20.75/kWh: https://www.jiobp.com/products-and-services/EV-charging
+- Jio-bp's FAQ states unit tariffs exclude 18% GST: https://www.jiobp.com/faqs
+- Tata Power says tariffs vary by location/charger and are shown in its app: https://www.tatapower.com/ezcharge
 
-## Pricing and affordability
+These are advertised examples, not a verified live quote for every Chennai station or a nationwide tariff survey. Promotions, subscriptions, locations and taxes affect comparison. Check the chosen station's app immediately before charging.
 
-Hosts propose their rates, subject to applicable rules and operator agreements. Show parking and charging as separate amounts, not one ambiguous hourly price. Charging records need billing basis (included, per kWh, per session or per time), rate, minimum, session fee, taxes and any idle fee/grace period. Display the entire basis before consent. Do not label a price affordable without a relevant comparison.
+At an illustrative all-inclusive INR20/kWh, 2kWh delivered costs INR40 and 30kWh costs INR600. These are energy examples, not typical or guaranteed full-charge costs. Battery capacity, starting state and losses determine required supply energy.
 
-An energy estimate is battery capacity multiplied by requested percentage change. Supply energy is higher due to losses; the public calculator uses an explicit illustrative 90% efficiency assumption. Actual billable energy requires a suitable meter/session record. Constant-power time is only an estimate: vehicle limits, tapering, temperature and shared power can change it. Do not promise a completed charge from a departure time alone. The calculator's sample ₹/kWh is not a tariff recommendation.
+Hosts choose either:
+1. Per-kWh: a displayed all-inclusive rate times requested energy gives an estimate. Actual cost must use agreed meter readings. A working readable energy meter is required. The app does not remotely meter, stop energy at the requested target, collect money or issue a settled invoice.
+2. Fixed session: a fixed fee for the stated reserved minutes and maximum energy allowance. This does not promise a full battery, or guarantee that the vehicle can accept the stated maximum. Unused time/energy has no automatic refund; equipment failures and disputes go to support. Payment automation and formal refund handling are future work.
 
-## Reservation design
+Bay access and all host fees/applicable taxes are included. No extra parking purchase or hidden bay charge is allowed. The two price types must not be compared by the number alone. Hosts may raise or lower future rates, but pricing remains subject to applicable electricity supply, charging-service and tax rules. Do not interpret the technical price-input maximum as a lawful tariff ceiling. A location-specific tariff and permission review is needed before commercial operation; this software is not legal clearance.
 
-Create charger-port reservations independently from parking reservations and confirm both atomically when sold together. A charger shared by several bays must have one inventory ledger. Pending holds need expiry and retries need idempotency keys. Host acceptance must recheck both resources and outages. Snapshot the accepted price basis, equipment, requested connector and cancellation conditions. Parking-only bookings must never silently consume or promise a charger.
+## Business case and trade-offs
 
-Support explicit requested, accepted, arrived, charging, completed, cancelled and failed states. Do not infer that charging started merely because someone checked in. Start with operator-confirmed sessions; later add authenticated charger integration, signed session events, deduplicated meter readings and remote-stop controls. No live status or remote control should be advertised before an actual integration exists.
+Separate charging can serve drivers who do not need long-duration parking, and make productive use of an existing professionally installed charger. It adds a second supply category and repeat-use opportunity. It does not make every driveway a charging station: electrical capacity, earthing/protection, compatible equipment, property permission, access and host response reliability determine suitability.
 
-## Failures, support and commercial operation
+Slow AC is best aligned with longer visits; DC may reduce dwell time but requires materially different equipment and investment. Two-wheelers vary substantially by model and portable charger; do not advertise a universal socket solution. Never improvise adapters or extension cables. Battery swapping and repairs are outside scope.
 
-Define what happens when a charger is occupied, offline, incompatible, inaccessible or delivers less power than advertised. Let the customer choose parking-only continuation when appropriate; record both parties' consent and calculate the adjustment from the original price snapshot. Failed-session refunds, cancellation fees, overstay and disputes need published rules and a real payment provider before collection. Notify customers of outages and changed access hours. Current parking requests do not include charger guarantees or charging payments.
+A host's contribution per visit is gross revenue less electricity, losses, demand/fixed charges attributable to service, equipment depreciation, maintenance, tax obligations, payment costs when enabled, support and fault/refund costs. Raising the price can reduce demand; station promotions can undercut a residential host. Pilot with existing compliant equipment before encouraging hardware purchases. Do not promise earnings.
 
-Treat driver vehicle/model data and exact location as personal data with purpose limits, retention/deletion policies and restricted staff access. Avoid collecting battery diagnostics unless required. Never request that drivers use improvised adapters, unsafe extensions or unattended damaged equipment. Battery swapping and repair are separate services outside this feature.
+## Operational boundaries
 
-## Rollout and measurements
+The same physical bay/port must not be simultaneously offered in parking inventory or another service. This release relies on host declarations and reviewer checks to prevent physical duplicates; it only prevents overlaps within a charger listing. Shared power, multiple simultaneous ports, cross-platform calendars and a shared parking/charging resource ledger are not implemented. Create one listing per independently usable port; do not claim combined nameplate power when it is shared.
 
-Pilot with a small set of inspected, permissioned hosts and explicit connector/model combinations. Measure usable ports, host response time, failed arrivals, compatibility failures, uptime, delivered energy, support demand and repeat visits. Calculate margin after electricity, demand charges where relevant, equipment/installation, maintenance, connectivity, payment fees, support and refunds; gross charging receipts are not profit. Expand only after reliable access and support are demonstrated. Operator integrations and verified multi-port inventory should precede automatic instant charging reservations.
+Opening schedules are daily, same-day windows. Pause for closures; no holiday calendar or individual maintenance blocks yet. Pending holds can be abused despite daily request limits; monitor response times and repeated cancellations. Hosts and drivers must check the dashboard: automated SMS/email/push notifications are not enabled.
 
-## Reference and limits
+For faults, incompatibility or no-show, use the support centre. Cancellation is self-service before arrival; after-start failures require support and operator coordination. No automatic billing/refund occurs. Never continue using damaged, wet or overheating equipment. Publication is not electrical certification.
 
-The Ministry of Power's [17 September 2024 EV charging guidelines](https://beeindia.gov.in/sites/default/files/Guidelines%20and%20Standards%20for%20EVCI%20dated%2017-09-2024_compressed.pdf) cover private, semi-public and public charging settings. Consult [BEE's EV resources](https://beeindia.gov.in/show_content.php?lang=1&level=2&lid=67&ls_id=345) and the applicable CEA electrical-safety requirements. Confirm current amendments, state electricity rules, property permissions and local requirements for each actual installation before offering paid charging. This is a product plan, not installation instructions or a legal compliance certification.
+## Next release priorities
+
+1. Equipment/permission verification procedure with documented evidence, local tariff assessment and incident escalation before a commercial pilot.
+2. Host alerts and arrival reminders; holiday/maintenance blocks; driver reporting of failed sessions.
+3. Metered sessions from a trusted operator integration, authenticated device events, deduplication, timeouts, start/stop confirmation and invoice-grade energy records.
+4. Payments, refunds, dispute handling and clear applicable cancellation policies; do not charge estimated energy as if it were measured.
+5. Multi-port/shared-load inventory and linked-bay exclusions if parking and charging ever share the same physical resource.
+6. Measure accepted requests, response time, failed arrivals, observed availability, repeat use, complaints and net host/platform contribution before wider rollout.
+
+## Verification
+
+Unit/SQL tests cover pricing, India-time windows, invalid dates, overlapping/adjacent bookings, expired holds, ownership on acceptance, paused listings and preservation of price snapshots. The local-only API integration test exercises authentication, public address redaction, uploads, review, guest requests, invalid model category/rate/energy, conflict handling, host acceptance, cancellation and rate changes. Browser checks cover navigation and forms. These checks do not certify electrical installations, test physical chargers, complete a real payment or prove production authentication for every user.

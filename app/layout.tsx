@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ParkThara — Space to park. Room to earn.",
-  description: "Find a parking space that fits your day. Compare owner-set prices, explore hourly to monthly parking, or share a space of your own with ParkThara.",
+  description: "Find a parking space that fits your day. Compare owner-set prices, explore hourly to monthly parking, book standalone EV charging, or share a space or charger of your own with ParkThara.",
   icons: {
     icon: "/images/parkthara-logo.png",
     shortcut: "/images/parkthara-logo.png",

@@ -8,6 +8,13 @@
       "when": 1793967451733,
       "tag": "0000_tranquil_scarlet_witch",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1794377552687,
+      "tag": "0001_striped_wither",
+      "breakpoints": true
     }
   ]
 }
