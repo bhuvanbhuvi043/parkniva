@@ -13,7 +13,7 @@ export type Booking = {
 };
 export type SiteUser = { userId: string; displayName: string; email: string; isAdmin: boolean } | null;
 export const CITY_OPTIONS = ["Chennai", "Bengaluru", "Mumbai", "New Delhi", "Hyderabad", "Pune", "Coimbatore", "Kolkata", "Tiruchirappalli", "Madurai", "Salem", "Tiruppur", "Kochi", "Ahmedabad", "Jaipur", "Chandigarh", "Lucknow", "Noida", "Gurugram", "Visakhapatnam", "Bhubaneswar", "Indore", "Nagpur", "Surat"];
-export const AMENITIES = [{ id: "cctv", label: "CCTV" }, { id: "guard", label: "Security guard" }, { id: "gated", label: "Gated access" }, { id: "lighting", label: "Well lit" }, { id: "ev", label: "EV charging available" }, { id: "accessible", label: "Step-free access" }];
+export const AMENITIES = [{ id: "cctv", label: "CCTV" }, { id: "guard", label: "Security guard" }, { id: "gated", label: "Gated access" }, { id: "lighting", label: "Well lit" }, { id: "ev", label: "EV charging (host-declared)" }, { id: "accessible", label: "Step-free access" }];
 export const money = (value: number, digits = 0) => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: digits }).format(value);
 export const bookingDate = (value: number) => new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeZone: "Asia/Kolkata" }).format(value);
 export const bookingTime = (value: number) => new Intl.DateTimeFormat("en-IN", { hour: "numeric", minute: "2-digit", timeZone: "Asia/Kolkata" }).format(value);
