@@ -1,6 +1,6 @@
 # ParkThara
 
-**Space to park. Room to earn.** A parking marketplace for India, with prices and availability chosen by each host.
+**Space to park. Room to earn.** A marketplace for parking and standalone EV charging in India, with prices and availability chosen by each host.
 
 [Interactive GitHub project demo](https://bhuvanbhuvi043.github.io/parkthara/) · [Full app with accounts and booking requests](https://parkthara.sheerriver2.chatgpt.site) · [Complete public source](https://github.com/bhuvanbhuvi043/parkthara)
 
@@ -15,11 +15,19 @@ The repository contains the complete frontend, API, database schema/migration, u
 
 **GitHub Pages cannot execute this application's backend.** The demo visibly identifies itself, collects no account credentials and submits no bookings or support messages. Account actions lead to the separately hosted full app. No browser-local pretend account or fake reservation is substituted for the backend. The full app's address currently includes `chatgpt.site`; a GitHub Pages publication does not remove that server dependency. See [hosting details](docs/GITHUB.md).
 
+## Mobile navigation and guides
+
+The responsive app uses Home, Parking, Charging, Bookings and Menu shortcuts. The booking hub separates parking and charging; the hosting hub separates parking spaces and charger ports. [Help & documents](https://parkthara.sheerriver2.chatgpt.site/documents) includes getting started, pricing, cancellations, terms, privacy, safety, EV guidance and feature availability. Mobile forms use readable text and single-column layouts.
+
+## Standalone EV charging
+
+Charging uses its own listings and requests; no parking booking is required. Hosts offer fixed sessions or per-kWh rates. Pending requests hold a port for up to two hours or until arrival, whichever is earlier. Rates and equipment details are saved with the request; future price changes do not change existing quotes. Driver and host activity is separated in the charging dashboard. No live metering, charger control or payment collection is enabled. See [the detailed charging plan](docs/EV-CHARGING-PLAN.md).
+
 ## Current scope
 
 The sample properties, photographs, map locations and prices are illustrative. A sample booking in the full app reserves no real property. Real owners choose their own rates, photographs and hours; submitted real listings require administrator review.
 
-The API checks identity, ownership, request origin and input validity. Quotes are calculated on the server. Reservation holds, acceptance and date blocks use atomic overlap checks. Exact entrance details are restricted to the owner, reviewer or an accepted guest with an active booking. One listing represents one bay; pending requests expire after 24 hours and must be accepted before arrival.
+The API checks identity, ownership, request origin and input validity. Quotes are calculated on the server. Reservation holds, acceptance and date blocks use atomic overlap checks. Exact entrance details are restricted to the owner, reviewer or an accepted guest with an active booking. One parking listing represents one bay; parking requests expire after 24 hours and must be accepted before arrival.
 
 **Payments, payouts, refunds and SMS/email notifications are not enabled.** Hosts and guests use the dashboard to follow requests. Daily/monthly requests hold the date interval, including closed hours; actual access follows the host's published days and hours. Overnight access windows are not supported in this version.
 
@@ -32,7 +40,7 @@ ParkThara replaces the previous working name after the owner reported an existin
 - `.openai/hosting.json` binds D1 as `DB` and R2 as `BUCKET` and retains the registered Site ID.
 - Production administrator configuration is stored through Sites runtime configuration. The application accepts `PARKTHARA_ADMIN_EMAIL` and the legacy `PARKNIVA_ADMIN_EMAIL` during the transition. Set it to the reviewing owner's actual sign-in email; it is never read from client input.
 - For portable local development, copy `.env.example` to ignored `.dev.vars` and use `PARKTHARA_ADMIN_EMAIL=seedy@sites.test` for the provided loopback identity.
-- Migration: `drizzle/0000_tranquil_scarlet_witch.sql`. Apply once locally using the command below. Hosting applies the tracked migration independently; local QA records are not published.
+- Migrations: `drizzle/0000_tranquil_scarlet_witch.sql` (parking) and `drizzle/0001_striped_wither.sql` (charging). Apply each pending migration once locally, in order, using the command below with its filename. Hosting applies the tracked migration independently; local QA records are not published.
 
 ## Validation
 

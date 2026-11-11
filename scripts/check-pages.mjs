@@ -9,6 +9,9 @@ assert.match(html,/type="module"[^>]+src="\/parkthara\/assets\//);
 assert.match(html,/https:\/\/parkthara\.sheerriver2\.chatgpt\.site/);
 assert.doesNotMatch(html,/<(?:form|iframe)\b/i);
 assert.equal(await readFile(new URL('explore/index.html',root),'utf8'),html);
+for(const route of ['my-bookings','hosting','documents','getting-started','pricing','cancellations','service-status','charging','charging/host','charging/bookings','charging/guide','terms','privacy','safety','help']){
+  assert.equal(await readFile(new URL(`${route}/index.html`,root),'utf8'),html,`Direct route ${route} must be deployed`);
+}
 assert.equal(await readFile(new URL('404.html',root),'utf8'),html);
 assert.equal(files.filter(f=>/^spaces[\\/].*[\\/]index\.html$/.test(f)).length,12);
 assert(!files.some(f=>/(^|[\\/])(?:\.env.*|\.dev\.vars.*|\.openai|server|worker|node_modules)([\\/]|$)/.test(f)));
