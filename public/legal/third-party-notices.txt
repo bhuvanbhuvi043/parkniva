@@ -1,6 +1,6 @@
-Parkniva — third-party software notices
+ParkThara — third-party software notices
 
-These components retain their own licences. Parkniva's proprietary notice does not replace these terms. Includes development tools for transparency. Optional packages not installed on the generating platform are recorded in docs/dependency-licenses.json; review their upstream licence texts before distributing their binaries.
+These components retain their own licences. ParkThara's proprietary notice does not replace these terms. Includes development tools for transparency. Optional packages not installed on the generating platform are recorded in docs/dependency-licenses.json; review their upstream licence texts before distributing their binaries.
 
 ========================================================================
 @alloc/quick-lru@5.2.0

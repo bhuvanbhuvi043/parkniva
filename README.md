@@ -1,43 +1,46 @@
-# Parkniva
+# ParkThara
 
 **Space to park. Room to earn.** A parking marketplace for India, with prices and availability chosen by each host.
 
-[GitHub Pages project preview](https://bhuvanbhuvi043.github.io/parkniva/) · [Full interactive prototype](https://parkniva.sheerriver2.chatgpt.site) · [Public source repository](https://github.com/bhuvanbhuvi043/parkniva)
+[Interactive GitHub project demo](https://bhuvanbhuvi043.github.io/parkthara/) · [Full app with accounts and booking requests](https://parkthara.sheerriver2.chatgpt.site) · [Complete public source](https://github.com/bhuvanbhuvi043/parkthara)
 
-Original Parkniva work is proprietary: see [LICENSE.txt](LICENSE.txt). Third-party rights are preserved in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and [ASSET-SOURCES.md](ASSET-SOURCES.md). The preliminary [IP review](docs/IP-REVIEW.md) records what has been checked and what still needs official clearance. Repository publication is not a trademark, patent or copyright registration.
+The repository contains the complete frontend, API, database schema/migration, upload handling, host and guest dashboards, administration tools, tests, build scripts and publishing workflows. Original contributions retain the owner's rights under [LICENSE.txt](LICENSE.txt); public visibility is not a general open-source grant. Third-party terms are recorded in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), [ASSET-SOURCES.md](ASSET-SOURCES.md) and the bundled notices.
 
-For GitHub setup, CI and the difference between source hosting and the running full-stack application, see [docs/GITHUB.md](docs/GITHUB.md).
+## Two published experiences
 
-## What works
+| Address | What it runs |
+| --- | --- |
+| GitHub Pages | A read-only interactive project demo: search, city/budget/vehicle/facility filters, hourly/daily/monthly price comparisons, listing galleries, illustrative maps, hosting introduction, FAQs and policy pages. It uses twelve fictional samples bundled with the frontend. |
+| Full app | The complete server-backed preview: ChatGPT sign-in, profiles, favourites, photos, host drafts/submissions, booking requests, host responses, cancellation, blocked dates, listing review and an internal support inbox. Persistent records are in D1; uploads are in R2. |
 
-- Responsive search, city/area queries, hourly/daily/monthly plans, budget, vehicle and facility filters, saved spaces and area maps.
-- ChatGPT sign-in, persistent profiles and favourites, photo uploads to R2, listing drafts, editing, review, publishing and pausing.
-- Server-priced booking requests, host accept/decline, cancellation, blocked dates and atomic reservation-overlap protection.
-- Private entrance addresses and precise coordinates disclosed only to the owner, administrator or a guest with an accepted active booking.
-- Host dashboard, guest booking history, administrator listing review and a persistent internal support inbox.
+**GitHub Pages cannot execute this application's backend.** The demo visibly identifies itself, collects no account credentials and submits no bookings or support messages. Account actions lead to the separately hosted full app. No browser-local pretend account or fake reservation is substituted for the backend. The full app's address currently includes `chatgpt.site`; a GitHub Pages publication does not remove that server dependency. See [hosting details](docs/GITHUB.md).
 
-Real data is stored in D1. Public photographs are served only for published listings; owners, reviewers and accepted guests can access permitted private photos. Every write checks identity, resource ownership and input validation. Uploaded images are checked by their file signatures and limited to 4 MB.
+## Current scope
 
-## Preview and commercial scope
+The sample properties, photographs, map locations and prices are illustrative. A sample booking in the full app reserves no real property. Real owners choose their own rates, photographs and hours; submitted real listings require administrator review.
 
-The owner authorised a public source repository on 10 November 2026 to enable GitHub Pages. The `github-pages/` folder publishes a static project showcase at the GitHub Pages address. Its “Open the full website” button opens the interactive prototype, whose accounts, uploads and booking requests run on the existing Sites Worker, D1 and R2 host. Accounts and administrator actions remain protected by sign-in and server-side ownership checks. The twelve sample listings are fictional: photographs, prices and map pins are illustrative, and sample bookings reserve no real property. Source and photo attribution are in `ASSET-SOURCES.md`.
+The API checks identity, ownership, request origin and input validity. Quotes are calculated on the server. Reservation holds, acceptance and date blocks use atomic overlap checks. Exact entrance details are restricted to the owner, reviewer or an accepted guest with an active booking. One listing represents one bay; pending requests expire after 24 hours and must be accepted before arrival.
 
-**Payments, payouts, refunds and SMS/email notifications are not enabled.** Booking requests and host responses are real database operations, but no money is collected. Hosts and drivers check the dashboard for updates. A pending request holds its slot for 24 hours; acceptance must occur before expiry and before arrival. One listing represents one parking bay. Access hours must fall within one calendar day. Daily and monthly requests hold the entire date interval, including closed hours, to prevent conflicting plans; monthly access follows the host's stated days and hours.
+**Payments, payouts, refunds and SMS/email notifications are not enabled.** Hosts and guests use the dashboard to follow requests. Daily/monthly requests hold the date interval, including closed hours; actual access follows the host's published days and hours. Overnight access windows are not supported in this version.
 
-Before a public commercial launch, configure an approved Indian marketplace payment provider with verified webhooks, idempotent payment/refund processing and reconciled payouts; establish the operating entity, host onboarding and support process; and have the actual commercial terms and privacy practices reviewed. These are operational launch requirements, not simulated features in this build. The brand is a working name and has not received trademark or domain clearance.
+## Name and rights
+
+ParkThara replaces the previous working name after the owner reported an existing domain using it. The 11 November 2026 web screening found no obvious exact-name parking competitor for ParkThara in the results reviewed. This is a working name, not official trademark, domain or company-name clearance. No trademark, copyright or patent application has been filed through this project. The [IP review](docs/IP-REVIEW.md) records the limits and remaining work; a code licence does not supply local parking permissions or business registrations.
 
 ## Configuration
 
 - `.openai/hosting.json` binds D1 as `DB` and R2 as `BUCKET` and retains the registered Site ID.
-- Production `PARKNIVA_ADMIN_EMAIL` is stored through Sites runtime configuration. Set it to the reviewing owner's actual sign-in email; it is never read from client input.
-- For portable local development, copy `.env.example` to ignored `.dev.vars` and use `PARKNIVA_ADMIN_EMAIL=seedy@sites.test` for the provided loopback identity.
+- Production administrator configuration is stored through Sites runtime configuration. The application accepts `PARKTHARA_ADMIN_EMAIL` and the legacy `PARKNIVA_ADMIN_EMAIL` during the transition. Set it to the reviewing owner's actual sign-in email; it is never read from client input.
+- For portable local development, copy `.env.example` to ignored `.dev.vars` and use `PARKTHARA_ADMIN_EMAIL=seedy@sites.test` for the provided loopback identity.
 - Migration: `drizzle/0000_tranquil_scarlet_witch.sql`. Apply once locally using the command below. Hosting applies the tracked migration independently; local QA records are not published.
 
 ## Validation
 
 ```sh
 node node_modules/typescript/bin/tsc --noEmit
-node --experimental-strip-types --test tests/parking.test.mjs tests/reservations.test.mjs
+npm test
+npm run build:pages
+node scripts/check-pages.mjs
 ```
 
 With a portable loopback development server running and the local administrator configured, `node tests/api-smoke.mjs` exercises auth/origin protection, photo upload and access, listing review, address privacy, profile and favourite persistence, server pricing, booking/cancellation, support and pause. It writes clearly named local test records and refuses non-loopback destinations. Do not point it at a hosted deployment.
@@ -72,7 +75,7 @@ Publish archives outside the source checkout or under its ignored `outputs/` dir
 
 `scripts/sites-env.mjs` preserves the caller's HOME, npm cache, proxy, XDG, and temporary-directory configuration while defaulting Wrangler and Miniflare state to the checkout. If npm reports an unwritable cache, select a writable path with `npm_config_cache` for that install. The `dev` and `start` scripts also keep Wrangler logs inside the checkout. Generated `.sites-runtime/` and `.wrangler/` directories are disposable and ignored by Git.
 
-On portable, `npm run dev` uses `vinext dev` with HMR, starting at port 5173. Vinext records the running server in ignored `.vinext/` state, rejects an ordinary duplicate launch, and recovers stale state after a stopped process; exactly simultaneous starts can race. Pass `--port <port>` or `--hostname <host>` after `npm run dev --` when needed; keep portable previews on loopback.
+On portable, `npm run dev` uses `vinext dev` with HMR, starting at port 5173. Vinext records the running server in ignored `.vinext/` state, rejects an ordinary duplicate launch, and recovers stale state after a stopped process; exactly simultaneous starts can race. Pass `--port <port>` or `--host <host>` after `npm run dev --` when needed; keep portable previews on loopback.
 
 For managed Linux browser QA, follow the Sites skill's managed preview reference. The daemon runs the project's Vite dev script with `--host 0.0.0.0 --port 4173 --strictPort`; use the CLI's returned URL. The ignored local profile survives the daemon's cleared environment.
 
@@ -96,7 +99,7 @@ Local tool usage metrics are disabled by default. Set `WRANGLER_SEND_METRICS=tru
 - the remaining `scripts/` files select execution profiles and run installation, development, and builds; the plugin's helpers orchestrate the Sites lifecycle
 - `dist/` contains generated deployment output; `.vinext/`, `.wrangler/`, and `.sites-runtime/` contain ignored local tool state
 - `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
+- `db/schema.ts` declares the parking marketplace tables
 - `@cloudflare/workers-types` provides Worker types; `cloudflare-env.d.ts` declares optional `DB`/`BUCKET` bindings—update these declarations if binding names change
 - `examples/d1/` contains an optional D1 example surface
 - `drizzle.config.ts` supports local migration generation when needed
@@ -156,7 +159,7 @@ Use SIWC for account pages, user-specific dashboards, saved records, and write a
 For a D1-backed local preview, generate SQL with `npm run db:generate`. Build once through the Sites skill's build entrypoint (or `npm run build` for standalone use) to generate `dist/server/wrangler.json`, rebuilding if bindings change. From the project root, apply each pending migration in order:
 
 ```sh
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_example.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_tranquil_scarlet_witch.sql
 ```
 
 Replace the filename with the pending migration and `DB` with your D1 binding name if different. Use `.wrangler/state`, not `.wrangler/state/v3`; Wrangler adds the versioned directories. Do not replay migrations already applied locally. This updates only the preview database; publishing applies production migrations separately.

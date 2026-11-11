@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
-const files=execFileSync('git',['ls-files','--cached','--others','--exclude-standard','-z'],{encoding:'utf8'}).split('\0').filter(Boolean);
+const deleted=new Set(execFileSync('git',['ls-files','--deleted','-z'],{encoding:'utf8'}).split('\0').filter(Boolean));
+const files=execFileSync('git',['ls-files','--cached','--others','--exclude-standard','-z'],{encoding:'utf8'}).split('\0').filter(file=>file&&!deleted.has(file));
 const rules=[['private-key',/-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/],['github-token',/(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,})/],['aws-access-id',/AKIA[0-9A-Z]{16}/],['openai-secret',/\bsk-(?:proj-)?[A-Za-z0-9_-]{40,}/],['credential-url',/https?:\/\/[^\s/@:]+:[^\s/@]+@/]];
 const forbidden=/(^|\/)(\.env(\..+)?|\.dev\.vars.*|\.wrangler|\.sites-runtime|node_modules|dist|outputs|coverage)(\/|$)/;
 const findings=[];

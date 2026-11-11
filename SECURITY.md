@@ -1,6 +1,6 @@
 # Security
 
-Parkniva is a public early access preview. The owner authorised public source publication on 10 November 2026. Anonymous app visitors can browse published and example listings. Account data, private photos, host submissions, booking writes and administrator actions require the appropriate authenticated identity. Payments and payouts are disabled. GitHub Pages contains only the separate static project showcase, with no account or booking forms.
+ParkThara is a public early access preview. The owner authorised public source publication on 10 November 2026. Anonymous app visitors can browse published and example listings. Account data, private photos, host submissions, booking writes and administrator actions require the appropriate authenticated identity. Payments and payouts are disabled. GitHub Pages contains only the separate static project showcase, with no account or booking forms.
 
 Report suspected vulnerabilities privately to the repository owner, `bhuvanbhuvi043`, through an existing private contact channel or a GitHub private security advisory if that facility is available. Do not publish credentials, precise host locations, vehicle registrations, customer records or exploit data in public issues. No monitored support email or guaranteed response time is advertised by this project.
 

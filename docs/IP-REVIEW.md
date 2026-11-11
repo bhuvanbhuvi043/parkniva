@@ -1,17 +1,19 @@
-# Parkniva: licence and intellectual-property review
+# ParkThara: licence and intellectual-property review
 
-Review dates: **6–7 November 2026 (India)**. This is a preliminary source and rights review, not a legal clearance opinion, registration, patent search report or guarantee of non-infringement.
+Source review: **6–7 November 2026 (India)**; rebrand and publication update: **11 November 2026**. This is a preliminary source and rights review, not a legal clearance opinion, registration, patent search report or guarantee of non-infringement.
 
 ## Current decisions
 
-- The owner initially selected a private repository and subsequently authorised **public source publication on 10 November 2026** to enable GitHub Pages. Original Parkniva rights are retained; no MIT, Apache or other general open-source grant has been applied to those contributions.
+- The owner initially selected a private repository and subsequently authorised **public source publication on 10 November 2026** to enable GitHub Pages. Original ParkThara rights are retained; no MIT, Apache or other general open-source grant has been applied to those contributions.
 - The maintainer is the authenticated GitHub account `bhuvanbhuvi043`, whose profile identifies BHUVANESHWARAN R. This does not establish an incorporated company or determine the appropriate applicant for a legal filing.
 - Third-party software and media retain their original terms. Their rights are excluded from `LICENSE.txt`.
-- The repository is now public. GitHub Pages serves a static project showcase, and the existing Sites Worker, D1 and R2 host runs the interactive prototype. Production accounts and data remain protected. Publication is separate from any formal IP registration or commercial payment launch.
+- The repository is now public. GitHub Pages serves a read-only interactive project demo, and the existing Sites Worker, D1 and R2 host runs the complete server-backed preview. Production accounts and data remain protected. Publication is separate from any formal IP registration or commercial payment launch.
 
 ## Trademark and company name: pending
 
-Public exact-name searches for `Parkniva` and `Park Niva` did not reveal an obvious same-name parking business in the results reviewed. This is a limited screening result, not evidence that the name is available. It does not cover unindexed use, phonetic similarities, device marks, all jurisdictions or the complete official register.
+The previous working name, Parkniva, was retired after the owner reported an existing parkniva.com domain. ParkYours was also avoided after an indexed historical parking app listing was found ([listing](https://parkyours.appstor.io/)); this does not establish its current app-store status or trademark rights.
+
+The replacement working name is **ParkThara** (public spelling parkthara). Exact/spacing searches for ParkThara, Park Thara, parking-app use and trademark mentions were reviewed on 11 November 2026. No obvious exact-name competing parking brand appeared in those results. This limited public-web screening is not proof of availability: unindexed use, similar spellings/pronunciations, logo marks, company names and all relevant registers remain unchecked. Domain ownership or availability has not been certified or purchased. No registered-trademark symbol is used.
 
 Both official Indian search routes were opened. The enhanced portal requires login; the legacy public search requires email/mobile, CAPTCHA and OTP. No official word-mark, phonetic or device-mark clearance was completed, and no application was filed. No domain purchase or company-name reservation was made. Do not use the registered-trademark symbol or describe the brand as registered.
 
@@ -52,7 +54,7 @@ Earlier publications found during this preliminary review include:
 | [US20150058051A1](https://patents.google.com/patent/US20150058051A1/en) | A property-sharing platform with parking-owner listings, requester search, filtering and owner acceptance; published in 2015. |
 | [WO2019144294A1](https://patents.google.com/patent/WO2019144294A1/en) | Parking-space sharing and reservation methods involving availability periods and prices; published in 2019. |
 
-These publications show that parking sharing is an established technical/business field. Their presence does not determine whether Parkniva infringes a valid claim, whether an Indian patent family is relevant, or whether a particular new technical improvement is patentable. No claim chart, Indian family/status verification, exhaustive prior-art search or freedom-to-operate opinion has been completed. A publication's apparent status in a search service is not relied on as a legal conclusion.
+These publications show that parking sharing is an established technical/business field. Their presence does not determine whether ParkThara infringes a valid claim, whether an Indian patent family is relevant, or whether a particular new technical improvement is patentable. No claim chart, Indian family/status verification, exhaustive prior-art search or freedom-to-operate opinion has been completed. A publication's apparent status in a search service is not relied on as a legal conclusion.
 
 If the owner has a specific new technical invention, patent strategy and disclosure need professional assessment. The repository is now public and its contents cannot be treated as confidential. Publication does not establish patent novelty or a patent filing date. No patent application has been filed here.
 
@@ -61,7 +63,7 @@ If the owner has a specific new technical invention, patent strategy and disclos
 
 ## Media, fonts, maps and dependencies
 
-See `ASSET-SOURCES.md`, `THIRD-PARTY-NOTICES.md`, `docs/dependency-licenses.json` and the generated licence texts. Stock photos are non-exclusive illustrative assets, not verified Indian properties or proof of permissions from depicted owners. Their licence does not automatically clear logos, identifiable people or private-property rights. No stock photograph is used as the Parkniva logo. Google Fonts and OSM retain their own terms and attribution.
+See `ASSET-SOURCES.md`, `THIRD-PARTY-NOTICES.md`, `docs/dependency-licenses.json` and the generated licence texts. Stock photos are non-exclusive illustrative assets, not verified Indian properties or proof of permissions from depicted owners. Their licence does not automatically clear logos, identifiable people or private-property rights. No stock photograph is used as the ParkThara logo. Google Fonts and OSM retain their own terms and attribution.
 
 ## Business permissions remain a separate launch task
 
@@ -69,4 +71,4 @@ A source-code licence is not an operating licence for every Indian city or prope
 
 ## Completion record
 
-Prepared in this repository: proprietary rights notice; third-party and image provenance records; dependency inventory; source safety checks; security reporting guidance; and a private-repository publishing process. Pending outside this build: official trademark search and filing decisions, any copyright registration, any patentability/FTO work, final legal ownership/applicant identity, and commercial operating approvals.
+Prepared in this repository: proprietary rights notice; third-party and image provenance records; dependency inventory; source safety checks; security reporting guidance; a complete public source release and separate static-demo/full-app publishing processes. Pending outside this build: official trademark search and filing decisions, any copyright registration, any patentability/FTO work, final legal ownership/applicant identity, and commercial operating approvals.

@@ -1,28 +1,31 @@
-# GitHub and hosting
+# GitHub publication and hosting
 
-Owner-selected visibility: **public**, explicitly authorised on 10 November 2026 to enable GitHub Pages. Original code: **rights retained**, subject to third-party terms. This is not an MIT or other general open-source licence.
+The owner explicitly authorised public source publication on 10 November 2026. The project was renamed **ParkThara** on 11 November. Original contributions remain proprietary under LICENSE.txt; third-party grants remain intact.
 
-- Source repository: https://github.com/bhuvanbhuvi043/parkniva
-- GitHub Pages project preview: https://bhuvanbhuvi043.github.io/parkniva/
-- Public website preview: https://parkniva.sheerriver2.chatgpt.site
-- Owner review page: https://parkniva.sheerriver2.chatgpt.site/admin
+- Complete source: https://github.com/bhuvanbhuvi043/parkthara
+- Interactive project demo: https://bhuvanbhuvi043.github.io/parkthara/
+- Full server-backed app: https://parkthara.sheerriver2.chatgpt.site
 
-Anyone can view the public source repository. Only the owner has collaborator access; no additional administrator or collaborator is authorised by this release. Public source access grants no access to production credentials, user accounts, databases or private uploads.
+## GitHub Pages
 
-## Local setup
+The Pages workflow installs locked dependencies, builds the same frontend with an explicit read-only demo target, checks the generated output and publishes only outputs/github-pages. This output is ignored by Git and uploaded as the Pages artifact. The repository includes its source in pages-demo/, pages.vite.config.ts and scripts/build-pages.mjs.
 
-Use Node 24 and Git. Run `npm ci --no-audit --no-fund`, then `npm run typecheck`, `npm test` and `npm run build`. Copy `.env.example` to ignored `.dev.vars` and configure a local administrator only if needed. The maintained portable preview uses the mock loopback identity described in the main README. Apply the existing migration once to a new local D1 database before using the account API.
+The demo includes sample search/filtering, plan prices, detail galleries/maps, hosting introduction and information pages. It has repository-prefixed assets and links, direct HTML entry points for the known routes and all twelve sample listings, and a 404 entry point for unknown routes. It never calls the production account API or stores pretend reservations. Registration plates, host notes and support-message inputs are excluded from the static demo. Its account buttons open the real full app.
 
-The app uses server-side code, identity, D1 and R2. **GitHub Pages serves only the static project showcase from `github-pages/`.** The full interactive prototype continues on its existing application host. No account, booking or payment forms are hosted on Pages. No cloud credentials, customer database or private uploaded photographs are committed.
+Pages is static hosting, and its terms do not permit using it as free hosting for an online business, commercial transactions or commercial SaaS. This publication is a clearly labelled non-transactional project demo. Running the actual marketplace requires server hosting. See [what Pages runs](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages) and [Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
 
-The application CI workflow checks source safety, types, tests, production dependency advisories and the Worker build. A successful main-branch build stores an artifact named `parkniva-worker-<commit>` for three days. Its `github-build.json` records the repository, exact commit and workflow run. The full interactive prototype is published through the existing Sites hosting integration. GitHub deployment records link its source revision and workflow to the application URL.
+## Full application
 
-The separate `Publish GitHub Pages` workflow validates the three showcase files and publishes them when `github-pages/` or the Pages workflow changes on `main`. It uses read-only source access and grants Pages/identity-token write access only to the deployment job. It publishes no application build artifacts or server files.
+The full app uses a Cloudflare Worker through Sites, with dispatch-owned ChatGPT sign-in, D1 and R2. Its registered project ID is retained in .openai/hosting.json. It is public for browsing; protected operations check the signed-in user and resource ownership. Production credentials, database rows and private uploads are not included in GitHub.
 
-Publishing remains an authorised Sites operation after the build; a push creates and checks the build artifact but does not by itself redeploy production. No hosting credential is stored in the repository or added to GitHub Actions by this setup. The local API smoke test is excluded from CI because it needs a separate loopback server, mock sign-in and local database.
+Application CI checks source safety, TypeScript, domain/reservation/navigation tests, production dependency advisories and the Worker build. Main-branch builds store parkthara-worker-<commit> for three days, with exact source provenance in github-build.json. Pages has a separate build/deployment workflow. A passing push does not automatically deploy the Sites backend; the authorised Sites save/deploy flow publishes the matching archive and commit.
 
-The source is public, but production credentials, databases and private uploads remain restricted. The application release does not include public client source maps or runtime data. The separate GitHub Pages showcase contains only HTML/CSS, the public logo and `.nojekyll`.
+No cloud secret has been added to Actions, and no paid hosting or domain has been purchased. The connected external Cloudflare credentials currently lack D1/storage provisioning permissions. A complete migration off chatgpt.site needs an authorised destination with database and photo storage, plus a supported production authentication plan. This release preserves the established authentication instead of replacing it with an unverified login system.
 
-Dependency-update pull requests are configured through Dependabot. Review and test related React/runtime upgrades together. Do not enable paid security products or paid hosting as an assumed part of this repository.
+## Running from the complete source
 
-Review `docs/IP-REVIEW.md` for the trademark, patent, copyright and commercial-readiness work that remains outside source publication.
+Use Node 24. Run npm ci --no-audit --no-fund, copy .env.example to ignored .dev.vars, and configure PARKTHARA_ADMIN_EMAIL=seedy@sites.test only for loopback development. Run npm run build, then apply the existing migration once to a new local D1 database using the exact command in README.md. Run npm run dev -- --host 127.0.0.1 --port 5174. The provided mock identity works only on loopback in development; it is absent from production builds.
+
+Run npm run typecheck and npm test. With the local server running, node tests/api-smoke.mjs verifies the authenticated local workflows and refuses non-loopback URLs. Run npm run build:pages and node scripts/check-pages.mjs for the independent static demo. It can be previewed with node node_modules/vite/bin/vite.js preview --config pages.vite.config.ts --host 127.0.0.1 --port 5176; open /parkthara/ on the printed URL.
+
+Only the owner is a repository collaborator. Public source visibility does not supply anyone with administrator access, service credentials, production database access or general permission to run a commercial copy. See docs/IP-REVIEW.md for the distinction between a rights notice and formal legal registration.

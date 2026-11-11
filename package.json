@@ -1,6 +1,6 @@
 {
-  "name": "parkniva",
-  "version": "0.1.0",
+  "name": "parkthara",
+  "version": "0.2.0",
   "private": true,
   "license": "UNLICENSED",
   "engines": {
@@ -14,9 +14,10 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test tests/parking.test.mjs tests/reservations.test.mjs",
+    "test": "node --experimental-strip-types --test tests/parking.test.mjs tests/reservations.test.mjs tests/pages.test.mjs",
     "licenses:generate": "node scripts/generate-license-notices.mjs",
-    "security:source": "node scripts/check-source-safety.mjs"
+    "security:source": "node scripts/check-source-safety.mjs",
+    "build:pages": "node --experimental-strip-types scripts/build-pages.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
