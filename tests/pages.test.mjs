@@ -8,6 +8,8 @@ test('Pages routes and assets respect the repository prefix',()=>{
   assert.equal(publicPath('https://example.org/x','/parkthara'),'https://example.org/x');
   assert.equal(applicationPath('/parkthara/explore?mode=monthly#map','/parkthara'),'/explore?mode=monthly#map');
   assert.equal(applicationPath('/parkthara/','/parkthara'),'/');
+  assert.equal(applicationPath('/parkthara/explore/?mode=monthly#map','/parkthara'),'/explore?mode=monthly#map');
+  assert.equal(applicationPath('/parkthara/about/','/parkthara'),'/about');
   assert.equal(applicationPath('/parkthara?mode=daily','/parkthara'),'/?mode=daily');
   assert.equal(applicationPath('/parktharax/explore','/parkthara'),'/parktharax/explore');
 });

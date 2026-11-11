@@ -9,11 +9,15 @@ export function publicPath(path: string, base = PROJECT_BASE) {
 }
 
 export function applicationPath(path: string, base = PROJECT_BASE) {
+  let logical = path;
   if (base && (path === base || path.startsWith(`${base}/`) || path.startsWith(`${base}?`) || path.startsWith(`${base}#`))) {
     const rest = path.slice(base.length);
-    return rest.startsWith("/") ? rest : `/${rest}`;
+    logical = rest.startsWith("/") ? rest : `/${rest}`;
   }
-  return path;
+  // Static hosts redirect directory URLs to a trailing slash. Keep query/hash
+  // intact while matching the same logical screen as client-side navigation.
+  const boundary = logical.search(/[?#]/);
+  return `${(boundary < 0 ? logical : logical.slice(0, boundary)).replace(/\/+$/, "") || "/"}${boundary < 0 ? "" : logical.slice(boundary)}`;
 }
 
 export function liveAppPath(path: string) {
