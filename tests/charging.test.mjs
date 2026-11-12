@@ -2,7 +2,27 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync} from 'node:fs';
-import {chargingQuote,chargingWindow,CHARGE_INSERT,CHARGE_ACCEPT} from '../lib/charging.ts';
+import {chargingQuote,chargingWindow,CHARGE_INSERT,CHARGE_ACCEPT,chargingSetup,validateSocketOffer,validateDriverEquipment} from '../lib/charging.ts';
+test('outlet requests require the complete portable charger declaration and details',()=>{
+ for(const connector of ['230 V AC outlet - 6 A','Manufacturer-approved two-wheeler outlet']){
+  assert.throws(()=>validateDriverEquipment(connector,false,'Approved model 230 V 5 A'));
+  assert.throws(()=>validateDriverEquipment(connector,true,''));
+  assert.doesNotThrow(()=>validateDriverEquipment(connector,true,'Approved model 230 V 5 A'));
+ }
+ assert.doesNotThrow(()=>validateDriverEquipment('CCS2 DC',false,''));
+});
+test('outlet listings require electrical details and reject power beyond socket rating',()=>{
+ assert.equal(chargingSetup('230 V AC outlet - 6 A'),'socket');
+ assert.equal(chargingSetup('Manufacturer-approved two-wheeler outlet'),'socket');
+ assert.equal(chargingSetup('Type 2 AC'),'ac');
+ assert.equal(chargingSetup('CCS2 DC'),'dc');
+ assert.equal(chargingSetup('Unknown plug'),'confirm');
+ const details='230 V, 6 A plug, protected dedicated circuit inspected by an electrician';
+ assert.doesNotThrow(()=>validateSocketOffer('230 V AC outlet - 6 A',0.9,details));
+ assert.throws(()=>validateSocketOffer('230 V AC outlet - 6 A',7.2,details));
+ assert.throws(()=>validateSocketOffer('230 V AC outlet - 16 A',7.2,details));
+ assert.throws(()=>validateSocketOffer('230 V AC outlet - 6 A',0.9,''));
+});
 const c={price_basis:'kwh',rate_paise:2025,max_kwh:30,session_minutes:60,open_time:'08:00',close_time:'20:00'};
 test('charging quotes use host rates with paise rounding, session fees stay fixed',()=>{
  assert.equal(chargingQuote(c,2.5),5063);assert.equal(chargingQuote({...c,price_basis:'session',rate_paise:6000},2),6000);
