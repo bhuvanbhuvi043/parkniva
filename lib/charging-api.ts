@@ -3,11 +3,11 @@ import {database,identity,json} from './server';
 import {chargingQuote,chargingWindow,CHARGE_INSERT,CHARGE_ACCEPT,CONNECTORS,chargingSetup,validateSocketOffer,validateDriverEquipment,type Charger} from './charging';
 const text=(n:number)=>z.string().trim().min(1).max(n);
 const clock=z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
-const schema=z.object({title:text(100),city:text(70),area:text(100),address:text(250),description:text(1800),vehicle_type:z.enum(['car','bike']),connector:z.enum(CONNECTORS as [string,...string[]]),power_kw:z.number().positive().max(500),cable:text(200),price_basis:z.enum(['session','kwh']),rate:z.number().min(0.01).max(10000),session_minutes:z.number().int().min(15).max(720),max_kwh:z.number().positive().max(300),open_time:clock,close_time:clock,image:z.string().regex(/^\/api\/photos\/[a-f0-9-]+$/),rights:z.literal(true)}).refine(d=>d.open_time<d.close_time,'Choose closing time after opening time.').refine(d=>{const m=(s:string)=>Number(s.slice(0,2))*60+Number(s.slice(3));return d.session_minutes<=m(d.close_time)-m(d.open_time);},'Session duration must fit opening hours.');
+const schema=z.object({lat:z.number().min(6).max(38),lng:z.number().min(68).max(98),title:text(100),city:text(70),area:text(100),address:text(250),description:text(1800),vehicle_type:z.enum(['car','bike']),connector:z.enum(CONNECTORS as [string,...string[]]),power_kw:z.number().positive().max(500),cable:text(200),price_basis:z.enum(['session','kwh']),rate:z.number().min(0.01).max(10000),session_minutes:z.number().int().min(15).max(720),max_kwh:z.number().positive().max(300),open_time:clock,close_time:clock,image:z.string().regex(/^\/api\/photos\/[a-f0-9-]+$/),rights:z.literal(true)}).refine(d=>d.open_time<d.close_time,'Choose closing time after opening time.').refine(d=>{const m=(s:string)=>Number(s.slice(0,2))*60+Number(s.slice(3));return d.session_minutes<=m(d.close_time)-m(d.open_time);},'Session duration must fit opening hours.');
 export async function chargingApi(request:Request,p:string[],user:Awaited<ReturnType<typeof identity>>,body:(r:Request)=>Promise<any>){
  const db=database(),method=request.method,now=Date.now();
  if(p[1]==='chargers'&&method==='GET'){
-  const rows=await db.prepare("SELECT id,owner_id,title,city,area,description,vehicle_type,connector,power_kw,cable,price_basis,rate_paise,session_minutes,max_kwh,open_time,close_time,image,status FROM chargers WHERE status='published' ORDER BY created_at DESC LIMIT 500").all();return json({chargers:rows.results||[]});
+  const rows=await db.prepare("SELECT ROUND(lat,2) AS lat,ROUND(lng,2) AS lng,id,owner_id,title,city,area,description,vehicle_type,connector,power_kw,cable,price_basis,rate_paise,session_minutes,max_kwh,open_time,close_time,image,status FROM chargers WHERE status='published' ORDER BY created_at DESC LIMIT 500").all();return json({chargers:rows.results||[]});
  }
  if(!user)return json({error:'Sign in to use charging bookings.'},401);
  if(p[1]==='account'&&method==='GET'){
@@ -26,10 +26,12 @@ export async function chargingApi(request:Request,p:string[],user:Awaited<Return
   }
   const count=await db.prepare('SELECT COUNT(*) AS n FROM chargers WHERE owner_id=?').bind(user.userId).first<{n:number}>();if((count?.n||0)>=50)return json({error:'Please contact support before adding more charging ports.'},429);
   const uploaded=await db.prepare('SELECT id FROM uploads WHERE id=? AND owner_id=?').bind(d.image.split('/').pop(),user.userId).first();if(!uploaded)return json({error:'Upload your own equipment photograph.'},400);
-  const id=crypto.randomUUID();await db.prepare("INSERT INTO chargers(id,owner_id,title,city,area,address,description,vehicle_type,connector,power_kw,cable,price_basis,rate_paise,session_minutes,max_kwh,open_time,close_time,image,status,review_note,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'pending','',?)").bind(id,user.userId,d.title,d.city,d.area,d.address,d.description,d.vehicle_type,d.connector,d.power_kw,d.cable,d.price_basis,Math.round(d.rate*100),d.session_minutes,d.max_kwh,d.open_time,d.close_time,d.image,now).run();return json({id,status:'pending'},201);
+  const id=crypto.randomUUID();await db.prepare("INSERT INTO chargers(lat,lng,id,owner_id,title,city,area,address,description,vehicle_type,connector,power_kw,cable,price_basis,rate_paise,session_minutes,max_kwh,open_time,close_time,image,status,review_note,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'pending','',?)").bind(d.lat,d.lng,id,user.userId,d.title,d.city,d.area,d.address,d.description,d.vehicle_type,d.connector,d.power_kw,d.cable,d.price_basis,Math.round(d.rate*100),d.session_minutes,d.max_kwh,d.open_time,d.close_time,d.image,now).run();return json({id,status:'pending'},201);
  }
  if(p[1]==='chargers'&&p[2]&&method==='PATCH'){
-  const d=z.object({action:z.enum(['pause','submit','publish','reject','rate']),rate:z.number().positive().max(10000).optional(),checked:z.boolean().default(false),note:z.string().trim().max(500).default('')}).parse(await body(request));
+  const raw=await body(request);
+  if(raw.action==='location'){const pin=z.object({lat:z.number().min(6).max(38),lng:z.number().min(68).max(98)}).parse(raw);const own=await db.prepare('SELECT owner_id FROM chargers WHERE id=?').bind(p[2]).first<{owner_id:string}>();if(!own||own.owner_id!==user.userId)return json({error:'This charger belongs to another host.'},403);await db.prepare("UPDATE chargers SET lat=?,lng=?,status='pending',review_note='' WHERE id=?").bind(pin.lat,pin.lng,p[2]).run();return json({status:'pending'});}
+  const d=z.object({action:z.enum(['pause','submit','publish','reject','rate']),rate:z.number().positive().max(10000).optional(),checked:z.boolean().default(false),note:z.string().trim().max(500).default('')}).parse(raw);
   const c=await db.prepare('SELECT * FROM chargers WHERE id=?').bind(p[2]).first<Charger>();if(!c)return json({error:'Charger not found.'},404);
   if(d.action==='rate'){
    if(c.owner_id!==user.userId)return json({error:'This charger belongs to another host.'},403);
@@ -38,6 +40,7 @@ export async function chargingApi(request:Request,p:string[],user:Awaited<Return
   }
   if(d.action==='publish'||d.action==='reject'){
    if(!user.isAdmin)return json({error:'Only a reviewer can publish chargers.'},403);
+   if(d.action==='publish'&&(c.lat==null||c.lng==null))return json({error:'The host must add entrance coordinates before publication.'},400);
    if(d.action==='publish'&&!d.checked)return json({error:'Review equipment, installation, permission, pricing and dedicated bay before publishing.'},400);
   }else if(c.owner_id!==user.userId)return json({error:'This charger belongs to another host.'},403);
   const status=d.action==='publish'?'published':d.action==='reject'?'rejected':d.action==='pause'?'paused':'pending';

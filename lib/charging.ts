@@ -1,5 +1,5 @@
 export type Charger = {
- id:string; owner_id:string; title:string; city:string; area:string; address?:string;
+ lat?:number|null; lng?:number|null; id:string; owner_id:string; title:string; city:string; area:string; address?:string;
  description:string; vehicle_type:string; connector:string; power_kw:number; cable:string;
  price_basis:'session'|'kwh'; rate_paise:number; session_minutes:number; max_kwh:number;
  open_time:string; close_time:string; image:string; status:string; review_note?:string;

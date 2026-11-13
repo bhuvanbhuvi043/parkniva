@@ -13,7 +13,7 @@ assert.equal((await req('charging/chargers','POST',{})).status,400);
 assert.equal((await req('charging/chargers','POST',{},{Origin:'https://unrelated.example'})).status,403);
 const form=new FormData();form.set('file',new File([await readFile(new URL('../public/images/covered-parking.jpg',import.meta.url))],'local-test.jpg',{type:'image/jpeg'}));
 const photo=await req('uploads','POST',form);assert.equal(photo.status,201);
-const offer={title:'Local charging QA',city:'Chennai',area:'Test area',address:'Private test address',description:'Local test only: dedicated charger, compatible test model.',vehicle_type:'car',connector:'Type 2 AC',power_kw:7.2,cable:'Type 2 cable included',price_basis:'kwh',rate:20,session_minutes:60,max_kwh:7,open_time:'08:00',close_time:'20:00',image:photo.data.url,rights:true};
+const offer={lat:13.01,lng:80.26,title:'Local charging QA',city:'Chennai',area:'Test area',address:'Private test address',description:'Local test only: dedicated charger, compatible test model.',vehicle_type:'car',connector:'Type 2 AC',power_kw:7.2,cable:'Type 2 cable included',price_basis:'kwh',rate:20,session_minutes:60,max_kwh:7,open_time:'08:00',close_time:'20:00',image:photo.data.url,rights:true};
 const created=await req('charging/chargers','POST',offer);assert.equal(created.status,201,JSON.stringify(created.data));const id=created.data.id;
 assert.equal((await req('charging/chargers/'+id,'PATCH',{action:'publish',checked:false})).status,400);
 assert.equal((await req('charging/chargers/'+id,'PATCH',{action:'publish',checked:true})).status,200);
